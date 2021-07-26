@@ -1,0 +1,45 @@
+VV m_mutiply(VV &a,VV &b)
+{
+    VV dp=a;
+    rep(i,0,6)
+    {
+        rep(j,0,6)
+        {
+            ll s=0;
+            rep(k,0,6)
+            {
+                s+=a[i][k]*b[k][j];
+                s%=1000000007;
+            }
+            dp[i][j]=s;
+        }
+    }
+   return dp;
+}
+VV mat_mul(VV &M,ll n)
+{
+    if(n==0)
+    {
+        return  {
+                    {1,0,0,0,0,0},
+                    {0,1,0,0,0,0},
+                    {0,0,1,0,0,0},
+                    {0,0,0,1,0,0},
+                    {0,0,0,0,1,0},
+                    {0,0,0,0,0,1}
+
+                };
+    }
+    if(n==1)
+    {
+        return M;
+    }
+    VV dp=mat_mul(M,n/2);
+    dp=m_mutiply(dp,dp);
+    if(n&1)
+    {
+        // m_mutiply(dp,dp);
+        return m_mutiply(dp,M);
+    }
+    return dp;
+}
